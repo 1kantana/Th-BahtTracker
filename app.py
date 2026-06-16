@@ -113,7 +113,7 @@ if st.button("คำนวณเงิน", type="primary"):
                 st.write(f"**รวมยอดเงินวันธรรมดา:** {round(total_weekday, 2)} บาท")
 
             with col2:
-                st.subheader("🔖 วันหยุด (Weekend)")
+                st.subheader("🏷️ วันหยุด (Weekend)")
                 st.write(f"**รวมยอดเงินวันหยุด:** {round(total_weekend, 2)} บาท")
 
             st.markdown("---")
