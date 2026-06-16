@@ -6,7 +6,7 @@ import pandas as pd
 from io import BytesIO
 
 # 1. ตั้งค่าหน้าตาของโปรแกรมเบื้องต้น (เปลี่ยนชื่อแท็บเบราว์เซอร์เป็น Pim-Tang)
-st.set_page_config(page_title="Pim-Tang", page_icon="💸", layout="centered")
+st.set_page_config(page_title="Pim-Tang", page_icon="📝", layout="centered")
 
 # 2. ใส่ Custom CSS เพื่อเปลี่ยนฟอนต์ทั้งแอปเป็น "Sarabun"
 st.markdown(
