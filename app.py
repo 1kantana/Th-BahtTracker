@@ -31,7 +31,16 @@ st.markdown(
 )
 
 # หัวข้อหลักบนหน้าเว็บ
-st.title("Pim-Tang TH 🇹🇭")
+# ใช้ st.markdown ร่วมกับ HTML เพื่อดึงภาพธงชาติที่แสดงผลได้ทุกระบบปฏิบัติการ
+st.markdown(
+    """
+    <h1 style='display: flex; align-items: center; gap: 15px;'>
+        Pim-Tang 
+        <img src="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1f9-1f1ed.png" style="width: 45px; height: 45px;">
+    </h1>
+    """, 
+    unsafe_allow_html=True
+)
 
 YEAR = 2026
 
