@@ -6,7 +6,7 @@ import pandas as pd
 from io import BytesIO
 
 # 1. ตั้งค่าหน้าตาของโปรแกรมเบื้องต้น
-st.set_page_config(page_title="Pim-Tang TH", page_icon="💸", layout="centered")
+st.set_page_config(page_title="Pim-Tang TH", page_icon="📝", layout="centered")
 
 # 2. ใส่ Custom CSS เพื่อเปลี่ยนฟอนต์ทั้งแอปเป็น "Sarabun"
 st.markdown(
@@ -17,9 +17,11 @@ st.markdown(
     html, body, [class*="css"], stText, p, div, span, h1, h2, h3, h4, h5, h6, button, input, textarea {
         font-family: 'Sarabun', sans-serif !important;
     }
+    /* ปรับฟอนต์สำหรับปุ่มกด (Streamlit Button) */
     .stButton button {
         font-family: 'Sarabun', sans-serif !important;
     }
+    /* ปรับฟอนต์สำหรับช่องกรอกข้อมูล (Text Area) */
     .stTextArea textarea {
         font-family: 'Sarabun', sans-serif !important;
     }
@@ -45,46 +47,19 @@ def is_weekend(day_num):
     except ValueError:
         return False, f"{day_num} (วันที่ไม่ถูกต้อง)"
 
-# ช่องสำหรับกรอกข้อมูลค่าใช้จ่าย
+# ช่องสำหรับกรอกข้อมูลค่าใช้จ่าย (ใส่ตัวอย่างอเมซอน-สตาร์บัคส์กลับคืนมา)
 data = st.text_area(
     "กรอกข้อมูลค่าใช้จ่ายของคุณ:",
     value="",
     height=200,
+    placeholder="ตัวอย่างการกรอก:\n15 อเมซอน 60 สตาร์บัคส์ 160"
 )
 
+# ใส่คำอธิบายรูปแบบการกรอกใต้กล่องข้อความกลับมาตามเดิม
+st.caption("💡 รูปแบบที่รองรับ: `[วันที่] [รายการ] [จำนวนเงิน] [รายการ] [จำนวนเงิน] ...` (เว้นวรรคแยกแต่ละส่วน)")
+
 # ปุ่มกดคำนวณเงิน
-is_calculated = st.button("คำนวณเงิน", type="primary")
-
-# --- ส่วนแนะนำการกรอกข้อมูลด้านล่าง (แสดงเมื่อหน้าจอโล่ง / ยังไม่ได้กดคำนวณ) ---
-if not is_calculated:
-    st.markdown("---")
-    st.markdown("### 💡 แนะนำวิธีการกรอกข้อมูล")
-    
-    # ใช้ st.info เพื่อแสดงรูปแบบที่ถูกต้องอย่างชัดเจน
-    st.info(
-        "**รูปแบบการกรอก:** พิมพ์ขึ้นต้นด้วย `[วันที่]` ตามด้วย `[ชื่อรายการ]` และ `[จำนวนเงิน]` สลับกันไปในบรรทัดเดียวกัน (เว้นวรรค 1 เคาะระหว่างส่วน)\n\n"
-        "**ตัวอย่างเช่น:**\n"
-        "`15 กาแฟ 60 ข้าวผัด 50` (แปลว่า วันที่ 15 ซื้อกาแฟ 60 บาท และข้าวผัด 50 บาท)\n"
-        "`16 ชาเย็น 45` (แปลว่า วันที่ 16 ซื้อชาเย็น 45 บาท)"
-    )
-    
-    # ใช้ Expander ซ่อนรายละเอียดข้อกำหนดไว้ เพื่อไม่ให้หน้าจอดูกลืนหรือรกเกินไป
-    with st.expander("🔍 ดูรายละเอียดข้อกำหนดเพิ่มเติม"):
-        st.markdown(
-            """
-            * **วันที่:** ให้ใส่เฉพาะ *ตัวเลขวันที่* (เช่น 1 ถึง 31) ของเดือนปัจจุบันเท่านั้น ระบบจะคำนวณประเภทวันให้โดยอัตโนมัติ
-            * **การขึ้นบรรทัดใหม่:** 1 บรรทัด = 1 วัน คุณสามารถใส่กี่รายการในบรรทัดนั้นก็ได้
-            * **รายการและจำนวนเงิน:** ต้องอยู่คู่กันเสมอ โดยตัวชื่อรายการต้อง *ไม่มีตัวเลขผสม* และจำนวนเงินต้อง *ไม่มีตัวอักษรผสม*
-            * **ตัวอย่างการกรอกหลายวันพร้อมกัน:**
-```text
-              15 กาแฟ 60 ข้าวกลางวัน 80
-              16 ค่ารถ 40 ชาเขียว 55 ขนม 20
-              ```
-            """
-        )
-
-# ประมวลผลเมื่อปุ่มถูกกด
-if is_calculated:
+if st.button("คำนวณเงิน", type="primary"):
     if not data.strip():
         st.warning("โปรดกรอกข้อมูลก่อนคำนวณ")
     else:
@@ -108,6 +83,7 @@ if is_calculated:
             day_type = "Weekend" if weekend else "Weekday"
             items_part = " ".join(parts[1:])
             
+            # ใช้ Regex ดึงคู่ [ชื่อรายการค่าใช้จ่าย] [จำนวนเงิน]
             items = re.findall(r'([^\d\s]+)\s+(\d+(?:\.\d+)?)', items_part)
             
             if not items:
@@ -134,25 +110,28 @@ if is_calculated:
             col1, col2 = st.columns(2)
             
             with col1:
-                st.subheader("📊 วันธรรมดา (Weekday)")
+                st.subheader("📅 วันธรรมดา (Weekday)")
                 st.write(f"**รวมยอดเงินวันธรรมดา:** {round(total_weekday, 2)} บาท")
 
             with col2:
-                st.subheader("🌞 วันหยุด (Weekend)")
+                st.subheader("🗓️ วันหยุด (Weekend)")
                 st.write(f"**รวมยอดเงินวันหยุด:** {round(total_weekend, 2)} บาท")
 
             st.markdown("---")
             grand_total = total_weekday + total_weekend
             st.metric(label="💳 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
 
+            # แสดงตารางสรุปรายการทั้งหมด
             st.subheader("📋 รายการทั้งหมด")
             df = pd.DataFrame(all_rows)
             st.dataframe(df, use_container_width=True)
 
+            # ส่วนการสร้างไฟล์ Excel สำหรับดาวน์โหลด
             output = BytesIO()
             with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
                 df.to_excel(writer, index=False, sheet_name="Expenses")
 
+                # สร้างหน้าสรุปยอดรวมส่งออก Excel แบบง่ายๆ
                 summary_data = [
                     {"Type": "Weekday Total", "Amount": total_weekday},
                     {"Type": "Weekend Total", "Amount": total_weekend},
