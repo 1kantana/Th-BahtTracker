@@ -5,8 +5,8 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
-# 1. ตั้งค่าหน้าตาของโปรแกรมเบื้องต้น
-st.set_page_config(page_title="Th-BahtTracker", page_icon="💸", layout="centered")
+# 1. ตั้งค่าหน้าตาของโปรแกรมเบื้องต้น (เปลี่ยนชื่อแท็บเบราว์เซอร์เป็น Pim-Tang)
+st.set_page_config(page_title="Pim-Tang", page_icon="💸", layout="centered")
 
 # 2. ใส่ Custom CSS เพื่อเปลี่ยนฟอนต์ทั้งแอปเป็น "Sarabun"
 st.markdown(
@@ -30,8 +30,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# หัวข้อหลัก
-st.title("Th-BahtTracker 🇹🇭")
+# หัวข้อหลักบนหน้าเว็บ (เปลี่ยนเป็น Pim-Tang 🇹🇭 เท่ๆ คลีนๆ)
+st.title("Pim-Tang 🇹🇭")
 
 YEAR = 2026
 
@@ -53,8 +53,6 @@ data = st.text_area(
     value="",
     height=200,
 )
-
-st.caption("💡 รูปแบบที่รองรับ: `[วันที่] [รายการ] [จำนวนเงิน] [รายการ] [จำนวนเงิน] ...` (เว้นวรรคแยกแต่ละส่วน)")
 
 # ปุ่มกดคำนวณเงิน
 if st.button("คำนวณเงิน", type="primary"):
@@ -108,7 +106,7 @@ if st.button("คำนวณเงิน", type="primary"):
             col1, col2 = st.columns(2)
             
             with col1:
-                st.subheader("📅 วันธรรมดา (Weekday)")
+                st.subheader("📊 วันธรรมดา (Weekday)")
                 st.write(f"**รวมยอดเงินวันธรรมดา:** {round(total_weekday, 2)} บาท")
 
             with col2:
@@ -119,7 +117,7 @@ if st.button("คำนวณเงิน", type="primary"):
             grand_total = total_weekday + total_weekend
             st.metric(label="💳 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
 
-            # แสดงตารางสรุปรายการทั้งหมด (ไม่มีคอลัมน์ Category แล้ว)
+            # แสดงตารางสรุปรายการทั้งหมด
             st.subheader("📋 รายการทั้งหมด")
             df = pd.DataFrame(all_rows)
             st.dataframe(df, use_container_width=True)
@@ -140,9 +138,10 @@ if st.button("คำนวณเงิน", type="primary"):
 
             output.seek(0)
 
+            # เปลี่ยนชื่อไฟล์รายงานที่ดาวน์โหลดให้เป็น pim_tang_report
             st.download_button(
                 label="📥 ดาวน์โหลดไฟล์ Excel (.xlsx)",
                 data=output,
-                file_name=f"th_bahttracker_report_{YEAR}.xlsx",
+                file_name=f"pim_tang_report_{YEAR}.xlsx",
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             )
