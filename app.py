@@ -31,7 +31,7 @@ st.markdown(
 )
 
 # หัวข้อหลัก
-st.title("Expense Tracker TH 🇹🇭")
+st.title("Expense Tracker TH")
 
 YEAR = 2026
 
