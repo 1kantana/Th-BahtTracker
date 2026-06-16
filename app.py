@@ -5,8 +5,8 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
-# 1. ตั้งค่าหน้าตาของโปรแกรมเบื้องต้น (เปลี่ยนชื่อแท็บเบราว์เซอร์เป็น Pim-Tang)
-st.set_page_config(page_title="Pim-Tang", page_icon="📝", layout="centered")
+# 1. ตั้งค่าหน้าตาของโปรแกรมเบื้องต้น
+st.set_page_config(page_title="Pim-Tang TH", page_icon="💸", layout="centered")
 
 # 2. ใส่ Custom CSS เพื่อเปลี่ยนฟอนต์ทั้งแอปเป็น "Sarabun"
 st.markdown(
@@ -17,11 +17,9 @@ st.markdown(
     html, body, [class*="css"], stText, p, div, span, h1, h2, h3, h4, h5, h6, button, input, textarea {
         font-family: 'Sarabun', sans-serif !important;
     }
-    /* ปรับฟอนต์สำหรับปุ่มกด (Streamlit Button) */
     .stButton button {
         font-family: 'Sarabun', sans-serif !important;
     }
-    /* ปรับฟอนต์สำหรับช่องกรอกข้อมูล (Text Area) */
     .stTextArea textarea {
         font-family: 'Sarabun', sans-serif !important;
     }
@@ -30,8 +28,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# หัวข้อหลักบนหน้าเว็บ (เปลี่ยนเป็น Pim-Tang 🇹🇭 เท่ๆ คลีนๆ)
-st.title("Pim-Tang 🇹🇭")
+# หัวข้อหลักบนหน้าเว็บ
+st.title("Pim-Tang TH 🇹🇭")
 
 YEAR = 2026
 
@@ -55,7 +53,38 @@ data = st.text_area(
 )
 
 # ปุ่มกดคำนวณเงิน
-if st.button("คำนวณเงิน", type="primary"):
+is_calculated = st.button("คำนวณเงิน", type="primary")
+
+# --- ส่วนแนะนำการกรอกข้อมูลด้านล่าง (แสดงเมื่อหน้าจอโล่ง / ยังไม่ได้กดคำนวณ) ---
+if not is_calculated:
+    st.markdown("---")
+    st.markdown("### 💡 แนะนำวิธีการกรอกข้อมูล")
+    
+    # ใช้ st.info เพื่อแสดงรูปแบบที่ถูกต้องอย่างชัดเจน
+    st.info(
+        "**รูปแบบการกรอก:** พิมพ์ขึ้นต้นด้วย `[วันที่]` ตามด้วย `[ชื่อรายการ]` และ `[จำนวนเงิน]` สลับกันไปในบรรทัดเดียวกัน (เว้นวรรค 1 เคาะระหว่างส่วน)\n\n"
+        "**ตัวอย่างเช่น:**\n"
+        "`15 กาแฟ 60 ข้าวผัด 50` (แปลว่า วันที่ 15 ซื้อกาแฟ 60 บาท และข้าวผัด 50 บาท)\n"
+        "`16 ชาเย็น 45` (แปลว่า วันที่ 16 ซื้อชาเย็น 45 บาท)"
+    )
+    
+    # ใช้ Expander ซ่อนรายละเอียดข้อกำหนดไว้ เพื่อไม่ให้หน้าจอดูกลืนหรือรกเกินไป
+    with st.expander("🔍 ดูรายละเอียดข้อกำหนดเพิ่มเติม"):
+        st.markdown(
+            """
+            * **วันที่:** ให้ใส่เฉพาะ *ตัวเลขวันที่* (เช่น 1 ถึง 31) ของเดือนปัจจุบันเท่านั้น ระบบจะคำนวณประเภทวันให้โดยอัตโนมัติ
+            * **การขึ้นบรรทัดใหม่:** 1 บรรทัด = 1 วัน คุณสามารถใส่กี่รายการในบรรทัดนั้นก็ได้
+            * **รายการและจำนวนเงิน:** ต้องอยู่คู่กันเสมอ โดยตัวชื่อรายการต้อง *ไม่มีตัวเลขผสม* และจำนวนเงินต้อง *ไม่มีตัวอักษรผสม*
+            * **ตัวอย่างการกรอกหลายวันพร้อมกัน:**
+```text
+              15 กาแฟ 60 ข้าวกลางวัน 80
+              16 ค่ารถ 40 ชาเขียว 55 ขนม 20
+              ```
+            """
+        )
+
+# ประมวลผลเมื่อปุ่มถูกกด
+if is_calculated:
     if not data.strip():
         st.warning("โปรดกรอกข้อมูลก่อนคำนวณ")
     else:
@@ -79,7 +108,6 @@ if st.button("คำนวณเงิน", type="primary"):
             day_type = "Weekend" if weekend else "Weekday"
             items_part = " ".join(parts[1:])
             
-            # ใช้ Regex ดึงคู่ [ชื่อรายการค่าใช้จ่าย] [จำนวนเงิน]
             items = re.findall(r'([^\d\s]+)\s+(\d+(?:\.\d+)?)', items_part)
             
             if not items:
@@ -106,28 +134,25 @@ if st.button("คำนวณเงิน", type="primary"):
             col1, col2 = st.columns(2)
             
             with col1:
-                st.subheader("📅 วันธรรมดา (Weekday)")
+                st.subheader("📊 วันธรรมดา (Weekday)")
                 st.write(f"**รวมยอดเงินวันธรรมดา:** {round(total_weekday, 2)} บาท")
 
             with col2:
-                st.subheader("📅 วันหยุด (Weekend)")
+                st.subheader("🌞 วันหยุด (Weekend)")
                 st.write(f"**รวมยอดเงินวันหยุด:** {round(total_weekend, 2)} บาท")
 
             st.markdown("---")
             grand_total = total_weekday + total_weekend
             st.metric(label="💳 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
 
-            # แสดงตารางสรุปรายการทั้งหมด
             st.subheader("📋 รายการทั้งหมด")
             df = pd.DataFrame(all_rows)
             st.dataframe(df, use_container_width=True)
 
-            # ส่วนการสร้างไฟล์ Excel สำหรับดาวน์โหลด
             output = BytesIO()
             with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
                 df.to_excel(writer, index=False, sheet_name="Expenses")
 
-                # สร้างหน้าสรุปยอดรวมส่งออก Excel แบบง่ายๆ
                 summary_data = [
                     {"Type": "Weekday Total", "Amount": total_weekday},
                     {"Type": "Weekend Total", "Amount": total_weekend},
@@ -138,7 +163,6 @@ if st.button("คำนวณเงิน", type="primary"):
 
             output.seek(0)
 
-            # เปลี่ยนชื่อไฟล์รายงานที่ดาวน์โหลดให้เป็น pim_tang_report
             st.download_button(
                 label="📥 ดาวน์โหลดไฟล์ Excel (.xlsx)",
                 data=output,
