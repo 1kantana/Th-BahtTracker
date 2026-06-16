@@ -7,7 +7,7 @@ from io import BytesIO
 
 st.set_page_config(page_title="Expense Tracker TH", page_icon="💰", layout="centered")
 
-st.title("Expense Tracker TH 🇹🇭")
+st.title("Expense Tracker TH")
 
 YEAR = 2026
 
