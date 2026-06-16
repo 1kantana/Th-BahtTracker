@@ -5,9 +5,33 @@ import streamlit as st
 import pandas as pd
 from io import BytesIO
 
+# 1. ตั้งค่าหน้าตาของโปรแกรมเบื้องต้น
 st.set_page_config(page_title="Expense Tracker TH", page_icon="💰", layout="centered")
 
-st.title("Expense Tracker TH")
+# 2. ใส่ Custom CSS เพื่อเปลี่ยนฟอนต์ทั้งแอปเป็น "Prompt"
+st.markdown(
+    """
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap');
+
+    html, body, [class*="css"], stText, p, div, span, h1, h2, h3, h4, h5, h6, button, input, textarea {
+        font-family: 'Prompt', sans-serif !important;
+    }
+    /* ปรับฟอนต์สำหรับปุ่มกด (Streamlit Button) */
+    .stButton button {
+        font-family: 'Prompt', sans-serif !important;
+    }
+    /* ปรับฟอนต์สำหรับช่องกรอกข้อมูล (Text Area) */
+    .stTextArea textarea {
+        font-family: 'Prompt', sans-serif !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+# หัวข้อหลัก
+st.title("Expense Tracker TH 🇹🇭")
 
 YEAR = 2026
 
@@ -26,6 +50,7 @@ def is_weekend(day_num):
     except ValueError:
         return False, f"{day_num} (วันที่ไม่ถูกต้อง)"
 
+# หมวดหมู่สำหรับจัดกลุ่มค่าใช้จ่าย
 CATEGORY_EMOJI = {
     "food": "🥩",
     "drink": "🥤",
@@ -33,7 +58,7 @@ CATEGORY_EMOJI = {
 }
 
 def analyze_category(item_name):
-    """ฟังก์ชันช่วยเดาหมวดหมู่จากชื่อรายการแบบง่ายๆ"""
+    """ฟังก์ชันช่วยเดาหมวดหมู่จากชื่อรายการแบบง่ายๆ จากคำหลัก"""
     item_name = item_name.lower()
     if any(keyword in item_name for keyword in ["ข้าว", "ก๋วยเตี๋ยว", "อาหาร", "หมูกระทะ", "ส้มตำ", "ชาบู"]):
         return "food"
@@ -41,6 +66,7 @@ def analyze_category(item_name):
         return "drink"
     return "misc"
 
+# ช่องสำหรับกรอกข้อมูลค่าใช้จ่าย
 data = st.text_area(
     "กรอกข้อมูลค่าใช้จ่ายของคุณ:",
     value="",
@@ -50,6 +76,7 @@ data = st.text_area(
 
 st.caption("💡 รูปแบบที่รองรับ: `[วันที่] [รายการ] [จำนวนเงิน] [รายการ] [จำนวนเงิน] ...` (เว้นวรรคแยกแต่ละส่วน)")
 
+# ปุ่มกดคำนวณเงิน
 if st.button("คำนวณเงิน", type="primary"):
     if not data.strip():
         st.warning("โปรดกรอกข้อมูลก่อนคำนวณ")
@@ -74,7 +101,7 @@ if st.button("คำนวณเงิน", type="primary"):
             day_type = "Weekend" if weekend else "Weekday"
             items_part = " ".join(parts[1:])
             
-            # Regex ดึงคู่ [ชื่อรายการค่าใช้จ่าย] [จำนวนเงิน]
+            # ใช้ Regex ดึงคู่ [ชื่อรายการค่าใช้จ่าย] [จำนวนเงิน] รองรับการพิมพ์ต่อกันในหนึ่งวัน
             items = re.findall(r'([^\d\s]+)\s+(\d+(?:\.\d+)?)', items_part)
             
             if not items:
@@ -98,6 +125,7 @@ if st.button("คำนวณเงิน", type="primary"):
                     "Type": day_type
                 })
 
+        # แสดงผลลัพธ์เมื่อมีข้อมูลที่ประมวลผลได้
         if all_rows:
             col1, col2 = st.columns(2)
             
@@ -125,10 +153,12 @@ if st.button("คำนวณเงิน", type="primary"):
             grand_total = sum(totals_weekday.values()) + sum(totals_weekend.values())
             st.metric(label="💰 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
 
+            # แสดงตารางสรุปรายการ
             st.subheader("📋 รายการทั้งหมด")
             df = pd.DataFrame(all_rows)
             st.dataframe(df, use_container_width=True)
 
+            # ส่วนการสร้างไฟล์ Excel สำหรับดาวน์โหลด
             output = BytesIO()
             with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
                 df.to_excel(writer, index=False, sheet_name="Expenses")
