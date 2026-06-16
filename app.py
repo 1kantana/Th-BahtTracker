@@ -32,27 +32,6 @@ st.markdown(
 
 st.title("Pim-Tang 🇹🇭")
 
-# สร้างธงชาติไทยด้วย CSS Linear Gradient (อัตราส่วนแถบสีที่ถูกต้อง)
-st.markdown(
-    """
-    <div style="
-        width: 100%;
-        height: 40px;
-        border-radius: 8px;
-        background: linear-gradient(to bottom, 
-            #ED1C24 0%, #ED1C24 16.6%, 
-            #FFFFFF 16.6%, #FFFFFF 33.3%, 
-            #241D4F 33.3%, #241D4F 66.6%, 
-            #FFFFFF 66.6%, #FFFFFF 83.3%, 
-            #ED1C24 83.3%, #ED1C24 100%
-        );
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        margin-bottom: 25px;
-    "></div>
-    """,
-    unsafe_allow_html=True
-)
-
 YEAR = 2026
 
 def is_weekend(day_num):
