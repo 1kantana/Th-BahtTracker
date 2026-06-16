@@ -30,7 +30,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-st.title("Pim-Tang 🇹🇭 🧾")
+st.title("Pim-Tang 🇹🇭 📝")
 
 YEAR = 2026
 
