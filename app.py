@@ -121,13 +121,13 @@ if st.button("คำนวณเงิน", type="primary"):
             st.metric(label="💳 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
 
             # แสดงตารางสรุปรายการทั้งหมด
-st.subheader("📋 รายการทั้งหมด")
-df = pd.DataFrame(all_rows)
+            st.subheader("📋 รายการทั้งหมด")
+            df = pd.DataFrame(all_rows)
 
-# 💡 เพิ่มบรรทัดนี้เพื่อเริ่ม Index ที่ 1
-df.index = df.index + 1 
+            # 💡 เพิ่มบรรทัดนี้เพื่อเริ่ม Index ที่ 1
+            df.index = df.index + 1 
 
-st.dataframe(df, use_container_width=True)
+            st.dataframe(df, use_container_width=True)
 
             # ส่วนการสร้างไฟล์ Excel สำหรับดาวน์โหลด
             output = BytesIO()
