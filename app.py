@@ -139,7 +139,7 @@ if st.button("คำนวณเงิน", type="primary"):
 
             st.markdown("---")
             grand_total = total_weekday + total_weekend
-            st.metric(label="💳 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
+            st.metric(label="💵 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
 
             # แสดงตารางสรุปรายการทั้งหมด
             st.subheader("📋 รายการทั้งหมด")
