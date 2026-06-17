@@ -30,24 +30,28 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# SVG Code สไตล์ Pixel Art (8-bit) วาดสัดส่วนธงชาติไทยแบบพิกเซลเรียงก้อน
-PIXEL_THAI_FLAG = """
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" width="45" style="vertical-align: middle; margin-left: 8px; image-rendering: pixelated;">
-    <rect x="0" y="0" width="9" height="1" fill="#C1272D"/>
-    <rect x="0" y="1" width="9" height="1" fill="#C1272D"/>
-    <rect x="0" y="2" width="9" height="1" fill="#FFFFFF"/>
-    <rect x="0" y="3" width="9" height="1" fill="#1B1464"/>
-    <rect x="0" y="4" width="9" height="1" fill="#1B1464"/>
-    <rect x="0" y="5" width="9" height="1" fill="#FFFFFF"/>
-    <rect x="0" y="6" width="9" height="1" fill="#C1272D"/>
-    <rect x="0" y="7" width="9" height="1" fill="#C1272D"/>
+# สไตล์ที่ 1: ธงพิกเซลแบบสะบัดพริ้ว (Pixel Wave)
+PIXEL_WAVE_FLAG = """
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 11" width="48" style="vertical-align: middle; margin-left: 8px;">
+    <path d="M2 10h9v1H2zm9-1h1v1h-1zm1-7h1v7h-1z" fill="#000"/>
+    <path d="M1 1h1v9H1z" fill="#717171"/>
+    <path d="M0 2h1v8H0z" fill="#000"/>
+    <path d="M1 0h1v1H1z" fill="#d0d0d0"/>
+    <path d="M2 2h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
+    <path d="M2 3h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
+    <path d="M2 4h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#FFF"/>
+    <path d="M2 5h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#1B1464"/>
+    <path d="M2 6h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#1B1464"/>
+    <path d="M2 7h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#FFF"/>
+    <path d="M2 8h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
+    <path d="M2 9h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
 </svg>
 """
 
 st.markdown(
     f"""
     <h1 style="display: flex; align-items: center; white-space: nowrap;">
-        Pim-Tang {PIXEL_THAI_FLAG}
+        Pim-Tang {PIXEL_WAVE_FLAG}
     </h1>
     """, 
     unsafe_allow_html=True
