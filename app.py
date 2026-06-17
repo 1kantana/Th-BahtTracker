@@ -30,19 +30,22 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# สไตล์ที่ 1: วงกลมมินิมอล (Minimal Circle)
-MINIMAL_FLAG = """
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="40" style="vertical-align: middle; margin-left: 10px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));">
-    <circle cx="50" cy="50" r="50" fill="#A51931"/>
-    <rect x="0" y="16.6" width="100" height="66.8" fill="#F4F5F8"/>
-    <rect x="0" y="33.3" width="100" height="33.4" fill="#2D2A4A"/>
+# สไตล์ที่ 2: หมุดปักลายธงชาติ (Map Marker Pin)
+MAP_PIN_FLAG = """
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 30" width="38" style="vertical-align: middle; margin-left: 10px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.2));">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 7.56 12 18 12 18s12-10.44 12-18c0-6.63-5.37-12-12-12z" fill="#000" opacity="0.08"/>
+    <!-- ตัวหมุดหลัก -->
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 7.56 12 18 12 18s12-10.44 12-18c0-6.63-5.37-12-12-12z" fill="#A51931"/>
+    <!-- ลายธงชาติข้างในหมุด -->
+    <path d="M2.5 12C2.5 6.75 6.75 2.5 12 2.5s9.5 4.25 9.5 9.5c0 2.5-1 5-2.5 7L12 26.5 5 19c-1.5-2-2.5-4.5-2.5-7z" fill="#F4F5F8"/>
+    <path d="M2.8 12c0-1.8.5-3.5 1.5-4.8h15.4c1 1.3 1.5 3 1.5 4.8 0 1.8-.5 3.5-1.5 4.8H4.3c-1-1.3-1.5-3-1.5-4.8z" fill="#2D2A4A"/>
 </svg>
 """
 
 st.markdown(
     f"""
     <h1 style="display: flex; align-items: center; white-space: nowrap;">
-        Pim-Tang {MINIMAL_FLAG}
+        Pim-Tang {MAP_PIN_FLAG}
     </h1>
     """, 
     unsafe_allow_html=True
