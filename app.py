@@ -14,7 +14,7 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
 
-    html, body, [class*=\"css\"], stText, p, div, span, h1, h2, h3, h4, h5, h6, button, input, textarea {
+    html, body, [class*="css"], stText, p, div, span, h1, h2, h3, h4, h5, h6, button, input, textarea {
         font-family: 'Sarabun', sans-serif !important;
     }
     /* ปรับฟอนต์สำหรับปุ่มกด (Streamlit Button) */
@@ -30,10 +30,9 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ยุบรูปเครื่องคิดเลขสไตล์โปร่งแสงน่ารักให้เหลือบรรทัดเดียว เพื่อไม่ให้ Markdown มองเป็นกล่องข้อความ
+# ไอคอนเครื่องคิดเลขมินิมอลแบบบรรทัดเดียว (ป้องกันการแสดงผลแท็กหลุด)
 CALCULATOR_ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" style="vertical-align: middle; margin-left: 10px;"><rect x="3" y="2" width="18" height="20" rx="5" fill="#FFEAD2"/><rect x="5" y="4" width="14" height="5" rx="2.5" fill="#20262E"/><rect x="8" y="6" width="5" height="1" rx="0.5" fill="#FFF"/><rect x="5" y="11" width="3" height="3" rx="1.5" fill="#FF9494"/><rect x="10.5" y="11" width="3" height="3" rx="1.5" fill="#FFF"/><rect x="16" y="11" width="3" height="3" rx="1.5" fill="#FFF"/><rect x="5" y="16" width="3" height="3" rx="1.5" fill="#FFF"/><rect x="10.5" y="16" width="8.5" height="3" rx="1.5" fill="#B3C5FF"/></svg>'
 
-# แสดงผลหัวข้อโปรแกรมแบบ Flexbox แถวเดียวสมบูรณ์
 st.markdown(
     f'<h1 style="display: flex; align-items: center; white-space: nowrap;">Pim-Tang {CALCULATOR_ICON}</h1>', 
     unsafe_allow_html=True
@@ -69,6 +68,7 @@ if st.button("คำนวณเงิน", type="primary"):
     if not data.strip():
         st.warning("โปรดกรอกข้อมูลก่อนคำนวณ")
     else:
+        # คงตัวแปรภายในเป็นภาษาอังกฤษตามเดิม
         total_weekday = 0.0
         total_weekend = 0.0
         all_rows = []
@@ -104,11 +104,12 @@ if st.button("คำนวณเงิน", type="primary"):
                 else:
                     total_weekday += amount
 
+                # ปรับการแสดงผลประเภทวันในตาราง (DataFrame) เป็น Holidays / Working Days
                 all_rows.append({
                     "Date": formatted_date,
                     "Item": item,
-                    "Amount": amount,
-                    "Type": day_type
+                    "Amount (THB)": amount,
+                    "Day Type": "Holidays" if day_type == "Weekend" else "Working Days"
                 })
 
         # แสดงผลลัพธ์เมื่อประมวลผลเสร็จ
@@ -116,12 +117,14 @@ if st.button("คำนวณเงิน", type="primary"):
             col1, col2 = st.columns(2)
             
             with col1:
-                st.subheader("🔖 วันธรรมดา (Weekday)")
-                st.write(f"**รวมยอดเงินวันธรรมดา:** {round(total_weekday, 2)} บาท")
+                # 1. เปลี่ยนหัวข้อฝั่งวันธรรมดาบนหน้าเว็บ
+                st.subheader("🔖 Working Days")
+                st.write(f"**Total Working Days:** {round(total_weekday, 2)} บาท")
 
             with col2:
-                st.subheader("🏷️ วันหยุด (Weekend)")
-                st.write(f"**รวมยอดเงินวันหยุด:** {round(total_weekend, 2)} บาท")
+                # 2. เปลี่ยนหัวข้อฝั่งวันหยุดบนหน้าเว็บ
+                st.subheader("🏷️ Holidays")
+                st.write(f"**Total Holidays:** {round(total_weekend, 2)} บาท")
 
             st.markdown("---")
             grand_total = total_weekday + total_weekend
@@ -130,9 +133,7 @@ if st.button("คำนวณเงิน", type="primary"):
             # แสดงตารางสรุปรายการทั้งหมด
             st.subheader("📋 รายการทั้งหมด")
             df = pd.DataFrame(all_rows)
-
-            # 💡 เพิ่มบรรทัดนี้เพื่อเริ่ม Index ที่ 1
-            df.index = df.index + 1 
+            df.index = df.index + 1  # เริ่ม Index ที่ 1
 
             st.dataframe(df, use_container_width=True)
 
@@ -141,11 +142,11 @@ if st.button("คำนวณเงิน", type="primary"):
             with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
                 df.to_excel(writer, index=False, sheet_name="Expenses")
 
-                # สร้างหน้าสรุปยอดรวมส่งออก Excel แบบง่ายๆ
+                # 3. เปลี่ยนข้อความในหน้า Summary ของไฟล์ Excel ให้แมตช์กัน
                 summary_data = [
-                    {"Type": "Weekday Total", "Amount": total_weekday},
-                    {"Type": "Weekend Total", "Amount": total_weekend},
-                    {"Type": "Grand Total", "Amount": grand_total}
+                    {"Type": "Working Days Total", "Amount (THB)": total_weekday},
+                    {"Type": "Holidays Total", "Amount (THB)": total_weekend},
+                    {"Type": "Grand Total", "Amount (THB)": grand_total}
                 ]
                 summary_df = pd.DataFrame(summary_data)
                 summary_df.to_excel(writer, index=False, sheet_name="Summary")
