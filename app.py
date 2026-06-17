@@ -30,26 +30,26 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# สไตล์ที่ 1: ไอคอนเครื่องคิดเลข (Minimal Calculator)
+# นิยามไอคอนเครื่องคิดเลข (เอาสไตล์ที่เป็นปีกกาออกเพื่อความปลอดภัย)
 CALCULATOR_ICON = """
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" style="vertical-align: middle; margin-left: 10px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" style="vertical-align: middle; margin-left: 10px;">
     <rect x="4" y="2" width="16" height="20" rx="3" fill="#2D2A4A"/>
     <rect x="6" y="4" width="12" height="4" rx="1" fill="#00D2C4"/>
     <line x1="8" y1="6" x2="14" y2="6" stroke="#2D2A4A" stroke-width="1.5" stroke-linecap="round"/>
     <circle cx="8" cy="11" r="1.2" fill="#F4F5F8"/>
     <circle cx="12" cy="11" r="1.2" fill="#F4F5F8"/>
-    <circle cx="16" cy="11" r="1.2" fill="#FF6B6B"/> <circle cx="8" cy="15" r="1.2" fill="#F4F5F8"/>
+    <circle cx="16" cy="11" r="1.2" fill="#FF6B6B"/>
+    <circle cx="8" cy="15" r="1.2" fill="#F4F5F8"/>
     <circle cx="12" cy="15" r="1.2" fill="#F4F5F8"/>
-    <circle cx="16" cy="15" r="1.2" fill="#FFD166"/> <circle cx="8" cy="19" r="1.2" fill="#F4F5F8"/>
-    <rect x="10.8" y="17.8" width="6.4" height="2.4" rx="1.2" fill="#4B65F6"/> </svg>
+    <circle cx="16" cy="15" r="1.2" fill="#FFD166"/>
+    <circle cx="8" cy="19" r="1.2" fill="#F4F5F8"/>
+    <rect x="10.8" y="17.8" width="6.4" height="2.4" rx="1.2" fill="#4B65F6"/>
+</svg>
 """
 
+# ใช้การเชื่อมสตริงด้วย + แทน f-string เพื่อป้องกันระบบเอ๋อ
 st.markdown(
-    f"""
-    <h1 style="display: flex; align-items: center; white-space: nowrap;">
-        Pim-Tang {CALCULATOR_ICON}
-    </h1>
-    """, 
+    '<h1 style="display: flex; align-items: center; white-space: nowrap;">Pim-Tang ' + CALCULATOR_ICON + '</h1>', 
     unsafe_allow_html=True
 )
 
