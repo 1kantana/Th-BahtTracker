@@ -14,7 +14,7 @@ st.markdown(
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&display=swap');
 
-    html, body, [class*="css"], stText, p, div, span, h1, h2, h3, h4, h5, h6, button, input, textarea {
+    html, body, [class*=\"css\"], stText, p, div, span, h1, h2, h3, h4, h5, h6, button, input, textarea {
         font-family: 'Sarabun', sans-serif !important;
     }
     /* ปรับฟอนต์สำหรับปุ่มกด (Streamlit Button) */
@@ -30,26 +30,12 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-CALCULATOR_STYLE_1 = """
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" style="vertical-align: middle; margin-left: 10px;">
-    <!-- ตัวเครื่องขอบมนสุดๆ -->
-    <rect x="3" y="2" width="18" height="20" rx="5" fill="#FFEAD2"/>
-    <!-- หน้าจอสีเข้มตัดกัน -->
-    <rect x="5" y="4" width="14" height="5" rx="2.5" fill="#20262E"/>
-    <!-- เส้นไฟสถานะบนหน้าจอ -->
-    <rect x="8" y="6" width="5" height="1" rx="0.5" fill="#FFF"/>
-    <!-- ปุ่มกดสีพาสเทล -->
-    <rect x="5" y="11" width="3" height="3" rx="1.5" fill="#FF9494"/>
-    <rect x="10.5" y="11" width="3" height="3" rx="1.5" fill="#FFF"/>
-    <rect x="16" y="11" width="3" height="3" rx="1.5" fill="#FFF"/>
-    
-    <rect x="5" y="16" width="3" height="3" rx="1.5" fill="#FFF"/>
-    <rect x="10.5" y="16" width="8.5" height="3" rx="1.5" fill="#B3C5FF"/>
-</svg>
-"""
+# ยุบรูปเครื่องคิดเลขสไตล์โปร่งแสงน่ารักให้เหลือบรรทัดเดียว เพื่อไม่ให้ Markdown มองเป็นกล่องข้อความ
+CALCULATOR_ICON = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="42" style="vertical-align: middle; margin-left: 10px;"><rect x="3" y="2" width="18" height="20" rx="5" fill="#FFEAD2"/><rect x="5" y="4" width="14" height="5" rx="2.5" fill="#20262E"/><rect x="8" y="6" width="5" height="1" rx="0.5" fill="#FFF"/><rect x="5" y="11" width="3" height="3" rx="1.5" fill="#FF9494"/><rect x="10.5" y="11" width="3" height="3" rx="1.5" fill="#FFF"/><rect x="16" y="11" width="3" height="3" rx="1.5" fill="#FFF"/><rect x="5" y="16" width="3" height="3" rx="1.5" fill="#FFF"/><rect x="10.5" y="16" width="8.5" height="3" rx="1.5" fill="#B3C5FF"/></svg>'
 
+# แสดงผลหัวข้อโปรแกรมแบบ Flexbox แถวเดียวสมบูรณ์
 st.markdown(
-    '<h1 style="display: flex; align-items: center; white-space: nowrap;">Pim-Tang ' + CALCULATOR_STYLE_1 + '</h1>', 
+    f'<h1 style="display: flex; align-items: center; white-space: nowrap;">Pim-Tang {CALCULATOR_ICON}</h1>', 
     unsafe_allow_html=True
 )
 
@@ -67,7 +53,7 @@ def is_weekend(day_num):
     except ValueError:
         return False, f"{day_num} (วันที่ไม่ถูกต้อง)"
 
-# ช่องสำหรับกรอกข้อมูลค่าใช้จ่าย (ใส่ตัวอย่างอเมซอน-สตาร์บัคส์กลับคืนมา)
+# ช่องสำหรับกรอกข้อมูลค่าใช้จ่าย
 data = st.text_area(
     "กรอกข้อมูลค่าใช้จ่ายของคุณ:",
     value="",
@@ -75,7 +61,7 @@ data = st.text_area(
     placeholder="ตัวอย่างการกรอก:\n15 อเมซอน 60 สตาร์บัคส์ 160"
 )
 
-# ใส่คำอธิบายรูปแบบการกรอกใต้กล่องข้อความกลับมาตามเดิม
+# ใส่คำอธิบายรูปแบบการกรอกใต้กล่องข้อความ
 st.caption("💡 รูปแบบที่รองรับ: `[วันที่] [รายการ] [จำนวนเงิน] [รายการ] [จำนวนเงิน] ...` (เว้นวรรคแยกแต่ละส่วน)")
 
 # ปุ่มกดคำนวณเงิน
@@ -139,7 +125,7 @@ if st.button("คำนวณเงิน", type="primary"):
 
             st.markdown("---")
             grand_total = total_weekday + total_weekend
-            st.metric(label="💵 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
+            st.metric(label="💳 ยอดรวมทั้งหมด (Grand Total)", value=f"{round(grand_total, 2)} บาท")
 
             # แสดงตารางสรุปรายการทั้งหมด
             st.subheader("📋 รายการทั้งหมด")
