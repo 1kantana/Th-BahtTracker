@@ -30,38 +30,28 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# แปลงรูปภาพธงชาติไทยเป็น Base64 เพื่อฝังลงใน HTML
-import base64
-import urllib.request
+# SVG Code สไตล์ Pixel Art (8-bit) วาดสัดส่วนธงชาติไทยแบบพิกเซลเรียงก้อน
+PIXEL_THAI_FLAG = """
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" width="45" style="vertical-align: middle; margin-left: 8px; image-rendering: pixelated;">
+    <rect x="0" y="0" width="9" height="1" fill="#C1272D"/>
+    <rect x="0" y="1" width="9" height="1" fill="#C1272D"/>
+    <rect x="0" y="2" width="9" height="1" fill="#FFFFFF"/>
+    <rect x="0" y="3" width="9" height="1" fill="#1B1464"/>
+    <rect x="0" y="4" width="9" height="1" fill="#1B1464"/>
+    <rect x="0" y="5" width="9" height="1" fill="#FFFFFF"/>
+    <rect x="0" y="6" width="9" height="1" fill="#C1272D"/>
+    <rect x="0" y="7" width="9" height="1" fill="#C1272D"/>
+</svg>
+"""
 
-# ดึงและแปลงรูปภาพธงชาติ (ทำเพียงครั้งเดียวตอนรันแอป)
-@st.cache_data
-def get_flag_base64():
-    url = "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/72x72/1f1e9-1f1ed.png"
-    try:
-        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
-        with urllib.request.urlopen(req) as response:
-            return base64.b64encode(response.read()).decode()
-    except Exception:
-        # หากดึงภาพไม่ได้ ให้ใช้ Fallback ลิงก์สำรอง
-        return ""
-
-flag_base64 = get_flag_base64()
-
-# แสดงผลหัวข้อ Pim-Tang พร้อมรูปธงชาติ
-if flag_base64:
-    st.markdown(
-        f"""
-        <h1 style="vertical-align: middle;">
-            Pim-Tang 
-            <img src="data:image/png;base64,{flag_base64}" style="width: 42px; margin-left: 8px; vertical-align: -5px;">
-        </h1>
-        """, 
-        unsafe_allow_html=True
-    )
-else:
-    # หากเกิดข้อผิดพลาดในการโหลดรูปจริงๆ ให้กลับไปใช้ข้อความปกติเพื่อไม่ให้แอปพัง
-    st.title("Pim-Tang 🇹🇭")
+st.markdown(
+    f"""
+    <h1 style="display: flex; align-items: center; white-space: nowrap;">
+        Pim-Tang {PIXEL_THAI_FLAG}
+    </h1>
+    """, 
+    unsafe_allow_html=True
+)
 
 YEAR = 2026
 
