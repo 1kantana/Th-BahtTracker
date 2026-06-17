@@ -30,28 +30,19 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# สไตล์ที่ 1: ธงพิกเซลแบบสะบัดพริ้ว (Pixel Wave)
-PIXEL_WAVE_FLAG = """
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 13 11" width="48" style="vertical-align: middle; margin-left: 8px;">
-    <path d="M2 10h9v1H2zm9-1h1v1h-1zm1-7h1v7h-1z" fill="#000"/>
-    <path d="M1 1h1v9H1z" fill="#717171"/>
-    <path d="M0 2h1v8H0z" fill="#000"/>
-    <path d="M1 0h1v1H1z" fill="#d0d0d0"/>
-    <path d="M2 2h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
-    <path d="M2 3h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
-    <path d="M2 4h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#FFF"/>
-    <path d="M2 5h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#1B1464"/>
-    <path d="M2 6h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#1B1464"/>
-    <path d="M2 7h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#FFF"/>
-    <path d="M2 8h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
-    <path d="M2 9h3v1H2zm3 1h3v1H5zm3 1h3v1H8z" fill="#C1272D"/>
+# สไตล์ที่ 1: วงกลมมินิมอล (Minimal Circle)
+MINIMAL_FLAG = """
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="40" style="vertical-align: middle; margin-left: 10px; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));">
+    <circle cx="50" cy="50" r="50" fill="#A51931"/>
+    <rect x="0" y="16.6" width="100" height="66.8" fill="#F4F5F8"/>
+    <rect x="0" y="33.3" width="100" height="33.4" fill="#2D2A4A"/>
 </svg>
 """
 
 st.markdown(
     f"""
     <h1 style="display: flex; align-items: center; white-space: nowrap;">
-        Pim-Tang {PIXEL_WAVE_FLAG}
+        Pim-Tang {MINIMAL_FLAG}
     </h1>
     """, 
     unsafe_allow_html=True
